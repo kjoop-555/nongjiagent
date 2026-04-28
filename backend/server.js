@@ -93,18 +93,22 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 // 👇 就加这两行！！！
-// 托管静态前端资源
+// 托管静态前端页面
 app.use(express.static(path.join(__dirname, '../dist')));
 
-// 兜底路由 根治 * 语法报错
-app.all('*', (req, res, next) => {
-  // 接口请求直接跳过，不影响后端API
-  if(req.path.startsWith('/api/')) return next();
-  // 非接口路由，返回前端首页
-  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+// 【终极兼容写法 再也不会PathError】
+app.use((req, res, next) => {
+  // 所有/api开头的接口，直接放行
+  if (req.originalUrl.startsWith('/api/')) {
+    return next();
+  }
+  // 其他所有路由，返回前端首页
+  return res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
+// Render端口强制兼容
 const PORT = process.env.PORT;
+
 const server = app.listen(PORT, () => {
   console.log(`✅ 后端服务已启动，持续监听端口: http://localhost:${PORT}`);
   console.log(`🔍 健康检查地址: http://localhost:${PORT}/api/health`);
