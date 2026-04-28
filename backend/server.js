@@ -46,7 +46,7 @@ app.post('/api/chat', async (req, res) => {
 
     console.log(`📨 收到用户消息: ${message}`);
 
-   const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+ const response = await fetch('https://api.deepseek.chat/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
