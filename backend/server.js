@@ -93,8 +93,14 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 // 👇 就加这两行！！！
-app.use(express.static(path.join(__dirname, '/../dist')));
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/../dist/index.html')));
+// 托管静态资源
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// 替换后的兜底路由
+app.get(/^(.*)$/, (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
 const PORT = process.env.PORT || 3001;
 const server = app.listen(PORT, () => {
   console.log(`✅ 后端服务已启动，持续监听端口: http://localhost:${PORT}`);
