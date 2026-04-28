@@ -93,10 +93,14 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 // 👇 就加这两行！！！
-// 托管静态资源
+// 托管静态前端资源
 app.use(express.static(path.join(__dirname, '../dist')));
 
-app.get('*', (req, res) => {
+// 兜底路由 根治 * 语法报错
+app.all('*', (req, res, next) => {
+  // 接口请求直接跳过，不影响后端API
+  if(req.path.startsWith('/api/')) return next();
+  // 非接口路由，返回前端首页
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
