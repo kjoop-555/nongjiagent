@@ -17,7 +17,7 @@ type LLMMessage = {
 // Security: Read from .env file (via process.env provided by Vite)
 //const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 // 您的 OpenAI 代理地址 (ChatAnywhere)
-const API_BASE_URL = "http://localhost:3001/api/chat";
+const API_BASE_URL = "https://nongjiagent.onrender.com/api/chat";
 
 // 核心系统提示词：这里定义了三个功能的具体行为
 const SYSTEM_INSTRUCTION = `你是一个专业的农业机械智能运维与调度助手,名字叫「农机智脑(AgriSmart)」。
