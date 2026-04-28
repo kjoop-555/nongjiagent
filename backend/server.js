@@ -96,12 +96,11 @@ app.post('/api/chat', async (req, res) => {
 // 托管静态资源
 app.use(express.static(path.join(__dirname, '../dist')));
 
-// 替换后的兜底路由
-app.get(/^(.*)$/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 const server = app.listen(PORT, () => {
   console.log(`✅ 后端服务已启动，持续监听端口: http://localhost:${PORT}`);
   console.log(`🔍 健康检查地址: http://localhost:${PORT}/api/health`);
